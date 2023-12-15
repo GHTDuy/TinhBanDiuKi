@@ -39,10 +39,26 @@ public class Payment implements Serializable {
     private Integer paymentId;
     @Basic(optional = false)
     @Column(name = "total_price")
-    private int totalPrice;
+    private Double totalPrice;
     @JoinColumn(name = "order_id", referencedColumnName = "order_id")
     @OneToOne(optional = false)
     private Order orderId;
+
+    @Basic(optional = false)
+    @Column(name = "is_success")
+    private short isSuccess;
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public short getIsSuccess() {
+        return isSuccess;
+    }
+
+    public void setIsSuccess(short isSuccess) {
+        this.isSuccess = isSuccess;
+    }
 
     public Payment() {
     }
@@ -51,9 +67,11 @@ public class Payment implements Serializable {
         this.paymentId = paymentId;
     }
 
-    public Payment(Integer paymentId, int totalPrice) {
+    public Payment(Integer paymentId, Double totalPrice, Order orderId,short isSuccess) {
         this.paymentId = paymentId;
         this.totalPrice = totalPrice;
+        this.orderId = orderId;
+        this.isSuccess = isSuccess;
     }
 
     public Integer getPaymentId() {
@@ -64,11 +82,11 @@ public class Payment implements Serializable {
         this.paymentId = paymentId;
     }
 
-    public int getTotalPrice() {
+    public double getTotalPrice() {
         return totalPrice;
     }
 
-    public void setTotalPrice(int totalPrice) {
+    public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
     }
 

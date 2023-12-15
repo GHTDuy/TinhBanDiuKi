@@ -46,6 +46,7 @@ public class OrderDetail implements Serializable {
     public OrderDetail() {
     }
 
+
     public OrderDetail(OrderDetailPK orderDetailPK) {
         this.orderDetailPK = orderDetailPK;
     }

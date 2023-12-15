@@ -40,6 +40,18 @@ public class Customer implements Serializable {
 
     @Column(name = "customer_phone")
     private String customerPhone;
+
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
+
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customerId")
     private Set<Order> orderSet;
 

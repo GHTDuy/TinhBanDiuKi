@@ -6,19 +6,10 @@ package com.ptd.apirestaurant.entity;
 
 import java.io.Serializable;
 import java.util.Set;
-import jakarta.persistence.Basic;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedQueries;
-import jakarta.persistence.NamedQuery;
-import jakarta.persistence.OneToMany;
+
+import jakarta.persistence.*;
 import jakarta.persistence.Table;
+import org.springframework.web.multipart.MultipartFile;
 
 
 /**
@@ -50,13 +41,46 @@ public class Menu implements Serializable {
     private short productAvailable;
     @Basic(optional = false)
     @Column(name = "price")
-    private String price;
+    private Double price;
 
     @JoinColumn(name = "type_id", referencedColumnName = "type_id")
     @ManyToOne(optional = false)
     private FoodType typeId;
 
 
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
+
+    @Column(name = "image")
+    private  String image;
+
+
+    @Transient
+    private MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
     public Menu() {
     }
 
@@ -64,7 +88,7 @@ public class Menu implements Serializable {
         this.productId = productId;
     }
 
-    public Menu(Integer productId, String productName, short productAvailable, String price) {
+    public Menu(Integer productId, String productName, short productAvailable, Double price) {
         this.productId = productId;
         this.productName = productName;
         this.productAvailable = productAvailable;
@@ -95,11 +119,11 @@ public class Menu implements Serializable {
         this.productAvailable = productAvailable;
     }
 
-    public String getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

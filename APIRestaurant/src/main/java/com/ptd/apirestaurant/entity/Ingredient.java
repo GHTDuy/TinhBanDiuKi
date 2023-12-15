@@ -59,6 +59,16 @@ public class Ingredient implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date importDate;
 
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
+
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
 
     public Ingredient() {
     }

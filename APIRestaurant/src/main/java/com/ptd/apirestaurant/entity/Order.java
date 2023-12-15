@@ -43,7 +43,7 @@ import lombok.ToString;
     @NamedQuery(name = "Order.findAll", query = "SELECT o FROM Order o"),
     @NamedQuery(name = "Order.findByOrderId", query = "SELECT o FROM Order o WHERE o.orderId = :orderId"),
     @NamedQuery(name = "Order.findByDate", query = "SELECT o FROM Order o WHERE o.date = :date"),
-    @NamedQuery(name = "Order.findByIsFinish", query = "SELECT o FROM Order o WHERE o.isFinish = :isFinish")})
+    @NamedQuery(name = "Order.findByStatus", query = "SELECT o FROM Order o WHERE o.status = :isFinish")})
 public class Order implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -59,8 +59,8 @@ public class Order implements Serializable {
     private Date date;
     @Basic(optional = false)
 
-    @Column(name = "is_finish")
-    private short isFinish;
+    @Column(name = "status")
+    private String status;
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "orderId")
     private Payment payment;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "order")
@@ -76,6 +76,18 @@ public class Order implements Serializable {
     @ManyToOne(optional = false)
     private com.ptd.apirestaurant.entity.Table tableId;
 
+
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
+
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
+
     public Order() {
     }
 
@@ -83,10 +95,10 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public Order(Integer orderId, Date date, short isFinish) {
+    public Order(Integer orderId, Date date, String status) {
         this.orderId = orderId;
         this.date = date;
-        this.isFinish = isFinish;
+        this.status = status;
     }
 
     public Integer getOrderId() {
@@ -105,12 +117,12 @@ public class Order implements Serializable {
         this.date = date;
     }
 
-    public short getIsFinish() {
-        return isFinish;
+    public String getStatus() {
+        return status;
     }
 
-    public void setIsFinish(short isFinish) {
-        this.isFinish = isFinish;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Payment getPayment() {

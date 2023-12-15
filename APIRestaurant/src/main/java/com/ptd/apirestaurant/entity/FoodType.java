@@ -41,7 +41,16 @@ public class FoodType implements Serializable {
     @Basic(optional = false)
     @Column(name = "type_name")
     private String typeName;
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
 
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
 
     public FoodType() {
     }

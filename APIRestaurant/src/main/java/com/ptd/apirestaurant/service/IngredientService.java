@@ -15,4 +15,10 @@ public class IngredientService {
     public List<Ingredient> getListIngredientByFoodID(int id){
         return ingredientRepository.findAllByIDFood(id);
     }
+
+    public List<Ingredient> getListAvailableIngredient(){
+        return ingredientRepository.listAvailableIngredient();
+    }
+
+    public  List<Ingredient> getListUnavailaleIngredient(){return ingredientRepository.listUnAvailableIngredient();}
 }

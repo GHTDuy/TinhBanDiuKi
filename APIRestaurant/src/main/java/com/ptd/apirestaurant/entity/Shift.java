@@ -51,6 +51,17 @@ public class Shift implements Serializable {
     @Temporal(TemporalType.TIME)
     private Date shiftTimeEnd;
 
+    @Column(name = "is_disabled")
+    private Boolean isDisabled;
+
+    public Boolean getDisabled() {
+        return isDisabled;
+    }
+
+    public void setDisabled(Boolean disabled) {
+        isDisabled = disabled;
+    }
+
 
     public Shift() {
     }
