@@ -1,5 +1,6 @@
 package com.ptd.apirestaurant.service;
 
+import com.ptd.apirestaurant.dto.EmployeeDTO;
 import com.ptd.apirestaurant.entity.Employee;
 import com.ptd.apirestaurant.entity.Login;
 import com.ptd.apirestaurant.entity.Shift;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.text.Normalizer;
 import java.util.regex.Pattern;
 
@@ -21,6 +23,31 @@ public class EmployeeService {
 
     @Autowired
     ShiftRepository shiftRepository;
+
+    private EmployeeDTO toDTO(Employee employee){
+        EmployeeDTO dto = new EmployeeDTO();
+        dto.setEmployeeId(employee.getEmployeeId());
+        dto.setIsDisabled(employee.getDisabled()?1:0);
+        dto.setEmployeeName(employee.getEmployeeName());
+        dto.setEmployeeRole(employee.getEmployeeRole());
+        dto.setSalary(employee.getSalary());
+        dto.setPassword(employee.getPassword());
+        dto.setShiftId(employee.getShiftId().getShiftId());
+        return dto;
+    }
+
+    private Employee toEntiy(EmployeeDTO employeeDTO){
+        Employee employee = new Employee();
+        employee.setEmployeeId(employeeDTO.getEmployeeId());
+        employee.setDisabled(Boolean.parseBoolean(Integer.toString(employeeDTO.getIsDisabled())));
+        employee.setEmployeeName(employeeDTO.getEmployeeName());
+        employee.setEmployeeRole(employeeDTO.getEmployeeRole());
+        employee.setSalary(employeeDTO.getSalary());
+        employee.setPassword(employeeDTO.getPassword());
+        Shift s = shiftRepository.getShiftByShiftId(employeeDTO.getShiftId());
+        employee.setShiftId(s);
+        return employee;
+    }
 
     public static String removeAccent(String s) {
         String temp = Normalizer.normalize(s, Normalizer.Form.NFD);
@@ -39,9 +66,11 @@ public class EmployeeService {
     public Employee findFirstByName(String name){
         return employeeRepository.findFirstByUserName(name);
     }
-    public Employee createEmployee(Employee employee){
+    public Employee createEmployee(EmployeeDTO employeeDTO){
+        Employee employee = toEntiy(employeeDTO);
         String password = passwordEncoder.encode(employee.getPassword());
         employee.setPassword(password);
+        employee.setUserName(password);
         Employee e = employeeRepository.save(employee);
         String lastName = e.getEmployeeName().split(" ")[e.getEmployeeName().split(" ").length-1];
         String userName = removeAccent(lastName)+Integer.toString(e.getEmployeeId());

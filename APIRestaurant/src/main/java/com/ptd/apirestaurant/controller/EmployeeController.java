@@ -3,6 +3,7 @@ package com.ptd.apirestaurant.controller;
 
 import com.ptd.apirestaurant.Reponse.FailureRepsone;
 import com.ptd.apirestaurant.Reponse.SuccessResponse;
+import com.ptd.apirestaurant.dto.EmployeeDTO;
 import com.ptd.apirestaurant.entity.Employee;
 import com.ptd.apirestaurant.entity.Login;
 import com.ptd.apirestaurant.service.EmployeeService;
@@ -26,7 +27,7 @@ public class EmployeeController {
     }
 
     @PostMapping("/api/employee/create")
-    public ResponseEntity<Employee> createEmployee(@RequestBody Employee employee){
+    public ResponseEntity<Employee> createEmployee(@RequestBody EmployeeDTO employee){
         return new ResponseEntity<>(employeeService.createEmployee(employee), HttpStatus.CREATED);
     }
 

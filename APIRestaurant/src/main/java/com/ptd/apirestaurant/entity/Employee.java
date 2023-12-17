@@ -44,7 +44,7 @@ public class Employee implements Serializable {
     private String password;
 
     @Basic(optional = false)
-    @Column(name = "user_name",unique = true)
+    @Column(name = "user_name")
     private String userName;
 
     @Basic(optional = false)
