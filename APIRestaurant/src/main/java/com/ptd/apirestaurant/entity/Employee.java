@@ -42,6 +42,11 @@ public class Employee implements Serializable {
     @Basic(optional = false)
     @Column(name = "password")
     private String password;
+
+    @Basic(optional = false)
+    @Column(name = "user_name",unique = true)
+    private String userName;
+
     @Basic(optional = false)
     @Column(name = "salary")
     private int salary;
@@ -77,6 +82,14 @@ public class Employee implements Serializable {
         this.employeeRole = employeeRole;
         this.salary = salary;
         this.password = password;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

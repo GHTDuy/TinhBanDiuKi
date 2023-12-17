@@ -5,9 +5,6 @@ import org.apache.log4j.Logger;
 
 
 
-/***
- * @author uyen.tran
- */
 public class LogUtils {
      static Logger logger;
 
