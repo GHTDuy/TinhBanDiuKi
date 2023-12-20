@@ -9,11 +9,11 @@ import com.ptd.apirestaurant.entity.Login;
 import com.ptd.apirestaurant.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Map;
 
 @RestController
@@ -40,5 +40,17 @@ public class EmployeeController {
             return new ResponseEntity<>(new SuccessResponse("200","Success").toString(),HttpStatus.OK);
         else
             return new ResponseEntity<>(new FailureRepsone(res).toString(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/employee/delete/{employeeId}")
+    public ResponseEntity<String> deleteEmployee(@PathVariable int employeeId){
+        if(employeeService.deleteEmployee(employeeId) == true)
+            return new ResponseEntity<>( new SuccessResponse("200","Success").toString(),HttpStatus.OK);
+        return new ResponseEntity<>(new FailureRepsone("Fail").toString(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @GetMapping(value = "/api/current-user",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Employee> currentUser(Principal user){
+        Employee u = employeeService.findFirstByName(user.getName());
+        return new ResponseEntity<>(u, HttpStatus.OK);
     }
 }

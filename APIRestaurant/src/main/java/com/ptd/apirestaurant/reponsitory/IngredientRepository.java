@@ -24,4 +24,6 @@ public interface IngredientRepository extends JpaRepository<Ingredient, Integer>
 
     @Query ("select i from Ingredient i where i.amount =0")
     List<Ingredient> listUnAvailableIngredient();
+
+    Ingredient findByIngredientId(int id);
 }

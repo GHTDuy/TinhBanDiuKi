@@ -80,7 +80,7 @@ public class EmployeeService {
     public String assignShift(int employeeID,int shiftID){
         Employee employee = employeeRepository.findByEmployeeId(employeeID);
         if(employee == null) return "Can't find the employee";
-        if(employee.getEmployeeRole() != "WAITER") return "Can't assign the employee who is not a waiter";
+        if(employee.getEmployeeRole() != "Waiter") return "Can't assign the employee who is not a waiter";
         Shift shift = shiftRepository.getShiftByShiftId(shiftID);
         if(shift ==null) return "Shift is invalid";
         try {
@@ -90,6 +90,17 @@ public class EmployeeService {
         }
         catch (Exception ex){
             return ex.getMessage();
+        }
+    }
+
+    public Boolean deleteEmployee(int employeeID) {
+        try {
+            Employee e = employeeRepository.findByEmployeeId(employeeID);
+            e.setDisabled(true);
+            employeeRepository.save(e);
+            return true;
+        }catch (Exception ex) {
+            return false;
         }
     }
 }

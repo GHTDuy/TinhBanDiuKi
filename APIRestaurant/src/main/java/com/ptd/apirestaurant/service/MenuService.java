@@ -2,7 +2,10 @@ package com.ptd.apirestaurant.service;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.ptd.apirestaurant.dto.MenuDTO;
+import com.ptd.apirestaurant.entity.FoodType;
 import com.ptd.apirestaurant.entity.Menu;
+import com.ptd.apirestaurant.reponsitory.FoodTypeRepository;
 import com.ptd.apirestaurant.reponsitory.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +22,23 @@ public class MenuService {
     MenuRepository menuRepository;
 
     @Autowired
+    FoodTypeRepository foodTypeRepository;
+
+    @Autowired
     private  Cloudinary cloudinary;
 
+
+    private Menu toEntity(MenuDTO menuDTO){
+        Menu menu = new Menu();
+        menu.setProductId(menuDTO.getProductId());
+        menu.setImage(menuDTO.getImage());
+        menu.setProductAvailable(menuDTO.getProductAvailable());
+        menu.setProductName(menuDTO.getProductName());
+        menu.setDisabled(menuDTO.getDisabled());
+        FoodType foodType = foodTypeRepository.findByTypeId(menuDTO.getTypeId());
+        menu.setTypeId(foodType);
+        return menu;
+    }
 
     public List<Menu> FindAAllMenu(){
         return menuRepository.findAll();
@@ -44,10 +62,11 @@ public class MenuService {
         }
     }
 
-    public Menu createMenu(Menu menu){
+    public Menu createMenu(MenuDTO menuDTO){
+        Menu menu = toEntity(menuDTO);
         if(!menu.getFile().isEmpty()){
             try {
-                Map res = this.cloudinary.uploader().upload(menu.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
+                Map res = this.cloudinary.uploader().upload(menuDTO.getFile().getBytes(), ObjectUtils.asMap("resource_type", "auto"));
                 menu.setImage(res.get("secure_url").toString());
             }
             catch (IOException exception){
@@ -55,5 +74,16 @@ public class MenuService {
             }
         }
         return menuRepository.save(menu);
+    }
+
+    public Boolean deleteMenu(int menuID){
+        try {
+            Menu menu  =menuRepository.findMenuByProductId(menuID);
+            menu.setDisabled(true);
+            menuRepository.save(menu);
+            return true;
+        }catch (Exception exception){
+            return false;
+        }
     }
 }

@@ -3,6 +3,7 @@ package com.ptd.apirestaurant.controller;
 
 import com.ptd.apirestaurant.Reponse.FailureRepsone;
 import com.ptd.apirestaurant.Reponse.SuccessResponse;
+import com.ptd.apirestaurant.dto.MenuDTO;
 import com.ptd.apirestaurant.entity.Ingredient;
 import com.ptd.apirestaurant.entity.Menu;
 import com.ptd.apirestaurant.reponsitory.IngredientRepository;
@@ -41,8 +42,14 @@ public class MenuController {
     }
 
     @PostMapping("/api/menu/create")
-    ResponseEntity<Menu> createMenu(@RequestBody Menu mneu){
-        return new ResponseEntity<>(menuService.createMenu(mneu), HttpStatus.OK);
+    ResponseEntity<Menu> createMenu(@RequestBody MenuDTO menu){
+        return new ResponseEntity<>(menuService.createMenu(menu), HttpStatus.OK);
     }
 
+    @DeleteMapping("/api/menu/delete/{menuID}")
+    ResponseEntity<String> deleteMenu(@PathVariable("menuID") int id){
+        if(menuService.deleteMenu(id) == true)
+            return new ResponseEntity<>( new SuccessResponse("200","Success").toString(),HttpStatus.OK);
+        return new ResponseEntity<>(new FailureRepsone("Fail").toString(),HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

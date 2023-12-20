@@ -1,13 +1,15 @@
 package com.ptd.apirestaurant.controller;
 
 
+import com.ptd.apirestaurant.Reponse.FailureRepsone;
+import com.ptd.apirestaurant.Reponse.SuccessResponse;
+import com.ptd.apirestaurant.dto.IngredientDTO;
 import com.ptd.apirestaurant.entity.Ingredient;
 import com.ptd.apirestaurant.service.IngredientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -24,5 +26,17 @@ public class IngredientController {
     @GetMapping("/api/ingredient/get-all-unavailable")
     public ResponseEntity<List<Ingredient>> getListUnavailableIngredient(){
         return new ResponseEntity<>(ingredientService.getListUnavailaleIngredient(),HttpStatus.OK);
+    }
+
+    @PostMapping("/api/ingredient/create")
+    public ResponseEntity<Ingredient> createIngredient(@RequestBody IngredientDTO ingredientDTO){
+        return new ResponseEntity<>(ingredientService.createIngredient(ingredientDTO), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/api/ingredient/delete/{ingredientID}")
+    public ResponseEntity<String> deleteIngredient(@PathVariable("ingredientID") int id){
+        if(ingredientService.deleteIngredient(id) == true)
+            return new ResponseEntity<>( new SuccessResponse("200","Success").toString(),HttpStatus.OK);
+        return new ResponseEntity<>(new FailureRepsone("Fail").toString(),HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

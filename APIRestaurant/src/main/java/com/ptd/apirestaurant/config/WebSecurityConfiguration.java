@@ -28,12 +28,15 @@ public class WebSecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/authenticate", "/sign-up","/hello","/checkusername/",
-                        "/ws/**","/expirationOfToken/**","/refreshtoken/**","/generateOtp"
-                        ,"/token-sign-up","/generateOtp","/validateOtp").permitAll()
+                .requestMatchers("/authenticate", "/sign-up","/api/current-user").permitAll()
                 .and()
-                .authorizeHttpRequests().requestMatchers("/api/**","/data")
-                .authenticated().and()
+                .authorizeHttpRequests().requestMatchers("/api/order/**","/api/customer/**","/api/menu/get-all"
+                ,"/api/pay/momo/**","/api/pdf/payment","/api/table/get-all").hasAnyAuthority("WAITER")
+                .and()
+                .authorizeHttpRequests().requestMatchers("/api/**").hasAnyAuthority("MANAGER").
+                and()
+                .authorizeHttpRequests().requestMatchers("/api/order/**","/api/ingredient/**","/api/menu/**").hasAnyAuthority("KITCHENSTAFF")
+                .and()
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
