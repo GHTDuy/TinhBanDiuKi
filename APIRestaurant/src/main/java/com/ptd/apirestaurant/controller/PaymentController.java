@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class PaymentController {
     @Autowired
     PaymentService paymentService;
@@ -45,20 +46,12 @@ public class PaymentController {
         else
             return new ResponseEntity<>(new FailureRepsone(res).toString(),HttpStatus.OK);
     }
-    @GetMapping("/api/payment/get-all-payment-today")
-    ResponseEntity<List<Payment>> getAllPaymentToday(){
-        return  new ResponseEntity<>(paymentService.getAllPaymentToday(),HttpStatus.OK);
-    }
+
     @GetMapping("/api/payment/get-payment-by-order/{orderId}")
     ResponseEntity<Payment> getPaymentbyOrderID(@PathVariable("orderID") int orderId){
         return new ResponseEntity<>(paymentService.getPaymentByOrderId(orderId),HttpStatus.OK);
     }
-    @GetMapping("/api/payment/count-today")
-    ResponseEntity<Map<String,Integer>> countAllPaymentToday(){
-        Map<String,Integer> res = new HashMap<>();
-        res.put("allPaymentToday", paymentService.countPaymentToday());
-        return new ResponseEntity<>(res,HttpStatus.OK);
-    }
+
 
     @GetMapping("/api/payment/get-all-payement")
     ResponseEntity<List<Object[]>> getAllPayment(@RequestParam Map<String, String> param){

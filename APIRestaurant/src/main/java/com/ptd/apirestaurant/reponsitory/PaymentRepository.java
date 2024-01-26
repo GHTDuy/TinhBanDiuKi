@@ -15,9 +15,5 @@ public interface PaymentRepository extends JpaRepository<Payment,Integer> {
 
     Payment getPaymentByOrderId(Order orderId);
 
-    @Query("select p from Payment p join Order o on p.orderId.orderId = o.orderId where o.date = current date ")
-    List<Payment> getAllPaymentToday();
 
-    @Query("select count(p) from Payment p join Order o on o.orderId = p.orderId.orderId where o.date= current date ")
-    Integer countAllPaymentToday();
 }

@@ -23,11 +23,11 @@ public class OrderDTO {
         this.orderId = orderId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
@@ -80,7 +80,7 @@ public class OrderDTO {
         isDisabled = disabled;
     }
 
-    private Date date;
+    private String date;
     private String status;
     private Payment payment;
     private Integer customerId;

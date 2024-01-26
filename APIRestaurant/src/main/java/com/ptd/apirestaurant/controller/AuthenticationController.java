@@ -31,6 +31,7 @@ import static com.ptd.apirestaurant.share.utils.JwtUtil.SECRET;
 
 
 @RestController
+@CrossOrigin
 public class AuthenticationController {
 
     @Autowired

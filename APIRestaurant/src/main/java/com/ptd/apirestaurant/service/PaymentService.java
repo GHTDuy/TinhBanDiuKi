@@ -60,16 +60,12 @@ public class PaymentService {
         }
     }
 
-    public  List<Payment> getAllPaymentToday(){
-        return paymentRepository.getAllPaymentToday();
-    }
+
     public  Payment getPaymentByOrderId(int orderId){
         Order order = orderRepository.findByOrderId(orderId);
         return paymentRepository.getPaymentByOrderId(order);
     }
-    public Integer countPaymentToday(){
-        return paymentRepository.countAllPaymentToday();
-    }
+
     public List<Object[]> getListPayementInRange(Map<String, String> param){
         return payemntCustomRepository.totalPaymentInRange(param);
     }

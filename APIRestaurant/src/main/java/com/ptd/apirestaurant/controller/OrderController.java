@@ -3,6 +3,7 @@ package com.ptd.apirestaurant.controller;
 
 import com.ptd.apirestaurant.Reponse.FailureRepsone;
 import com.ptd.apirestaurant.Reponse.SuccessResponse;
+import com.ptd.apirestaurant.dto.OrderDTO;
 import com.ptd.apirestaurant.entity.Order;
 import com.ptd.apirestaurant.entity.OrderDetail;
 import com.ptd.apirestaurant.service.OrderDetailService;
@@ -16,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class OrderController {
     @Autowired
     OrderService orderService;
@@ -24,7 +26,7 @@ public class OrderController {
     OrderDetailService orderDetailService;
 
     @PostMapping("/api/order/create-order")
-    public ResponseEntity<String> createOrder(@RequestBody Order order){
+    public ResponseEntity<String> createOrder(@RequestBody OrderDTO order){
         try {
             Order orderCreate = orderService.addOrder(order);
             if(orderCreate != null)
@@ -74,10 +76,7 @@ public class OrderController {
             return new ResponseEntity<>(new FailureRepsone(res).toString(),HttpStatus.OK);
     }
 
-    @GetMapping("/api/order/get-all-order-today")
-    ResponseEntity<List<Order>> getAllOrderToday(){
-        return  new ResponseEntity<>(orderService.getAllOrderToday(),HttpStatus.OK);
-    }
+
 
     @GetMapping("/api/order/get-order-detail/{orderId}")
     ResponseEntity<List<OrderDetail>> getOrderDetailByOrder(@PathVariable("orderId") int orderId){

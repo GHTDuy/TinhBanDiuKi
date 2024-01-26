@@ -22,7 +22,7 @@ public class TableService {
     }
 
     public List<Table> getAllTable(){
-        return tableRepository.findAll();
+        return tableRepository.getAllCus();
     }
 
     public Table createTable(TableDTO tableDTO){

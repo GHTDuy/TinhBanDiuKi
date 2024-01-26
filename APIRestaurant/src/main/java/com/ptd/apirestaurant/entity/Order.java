@@ -55,8 +55,8 @@ public class Order implements Serializable {
     @Basic(optional = false)
 
     @Column(name = "date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+
+    private String date;
     @Basic(optional = false)
 
     @Column(name = "status")
@@ -95,7 +95,7 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public Order(Integer orderId, Date date, String status) {
+    public Order(Integer orderId, String date, String status) {
         this.orderId = orderId;
         this.date = date;
         this.status = status;
@@ -109,11 +109,11 @@ public class Order implements Serializable {
         this.orderId = orderId;
     }
 
-    public Date getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(String date) {
         this.date = date;
     }
 
